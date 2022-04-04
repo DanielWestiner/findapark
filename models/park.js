@@ -8,4 +8,4 @@ const parkSchema = new Schema({
     location: String
 });
 
-module.exports = mongoose.model('park', parkSchema);
+module.exports = mongoose.model('Park', parkSchema);

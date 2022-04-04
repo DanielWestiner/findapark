@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
-const park = require('./models/park');
+const Park = require('./models/park');
 
 mongoose.connect('mongodb://localhost:27017/find-a-park', {
     useNewUrlParser: true,
@@ -13,7 +13,7 @@ mongoose.connect('mongodb://localhost:27017/find-a-park', {
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
-    console.log("Database connected");
+    console.log("Database connected, oh yeah!!!");
 });
 
 const app = express();
@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
     res.render('home')
 });
 app.get('/parks', async (req, res) => {
-    const parks = await park.find({});
+    const parks = await Park.find({});
     res.render('parks/index', { parks })
 });
 app.get('/parks/new', (req, res) => {
@@ -38,30 +38,30 @@ app.get('/parks/new', (req, res) => {
 })
 
 app.post('/parks', async (req, res) => {
-    const park = new park(req.body.park);
+    const park = new Park(req.body.park);
     await park.save();
     res.redirect(`/parks/${park._id}`)
 })
 
 app.get('/parks/:id', async (req, res,) => {
-    const park = await park.findById(req.params.id)
+    const park = await Park.findById(req.params.id)
     res.render('parks/show', { park });
 });
 
 app.get('/parks/:id/edit', async (req, res) => {
-    const park = await park.findById(req.params.id)
+    const park = await Park.findById(req.params.id)
     res.render('parks/edit', { park });
 })
 
 app.put('/parks/:id', async (req, res) => {
     const { id } = req.params;
-    const park = await park.findByIdAndUpdate(id, { ...req.body.park });
+    const park = await Park.findByIdAndUpdate(id, { ...req.body.park });
     res.redirect(`/parks/${park._id}`)
 });
 
 app.delete('/parks/:id', async (req, res) => {
     const { id } = req.params;
-    await park.findByIdAndDelete(id);
+    await Park.findByIdAndDelete(id);
     res.redirect('/parks');
 })
 
