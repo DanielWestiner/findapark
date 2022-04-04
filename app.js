@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const park = require('./models/park');
 
-mongoose.connect('mongodb://localhost:27017/yelp-camp', {
+mongoose.connect('mongodb://localhost:27017/find-a-park', {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true
